@@ -1,0 +1,21 @@
+<!doctype html>
+<html ng-app="app">
+    <head></head>
+    <body ng-controller="AppController as appctrl">
+        <ui-view ng-click="appctrl.openCAInModal()">
+            click to load CA in modal
+        </ui-view>
+        <layer-container name="modal">
+
+        </layer-container>
+        <script src="lib/angular.js"></script>
+        <script src="src/app.js"></script>
+        <script src="src/controllers/appcontroller.js"></script>
+        <script src="src/controllers/camodalcontroller.js"></script>
+        <script src="src/services/layermanager.js"></script>
+        <script src="src/directives/layercontainer.js"></script>
+        <script src="src/directives/rbview.js"></script>
+
+        <script src="feature/controllers/maincontroller.js"></script>
+    </body>
+</html>
