@@ -3,8 +3,9 @@ angular.module('app').directive('rbView', function($controller, $compile){
         restrict : 'E',
         link :link,
         scope : {
-            resolve : '&',
-            name : '@'
+            //resolve : '&',
+            name : '@',
+            modalController: '='
         }
     }
 
@@ -12,8 +13,8 @@ angular.module('app').directive('rbView', function($controller, $compile){
         var controllerName = scope.name + '.maincontroller',
             featureScope = scope.$new(),
             content = elem.html(),
-            CONTROLLER_AS = 'main',
-            layerSlide = {resolve:scope.resolve};
+            CONTROLLER_AS = 'main';
+            //layerSlide = {resolve:scope.resolve};
 
         // compile body with new scope
         content = $compile(content)(featureScope);
@@ -25,6 +26,6 @@ angular.module('app').directive('rbView', function($controller, $compile){
         elem.append(content);
 
         // add feature controller to the scope and make it available with controller as main
-        featureScope[CONTROLLER_AS] = $controller(controllerName, {$scope:featureScope, layerSlide : layerSlide});
+        featureScope[CONTROLLER_AS] = $controller(controllerName, {$scope:featureScope, modalCtrl : scope.modalController});
     }
 });

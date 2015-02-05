@@ -7,7 +7,7 @@ angular.module('app').controller('AppController',function(layermanager){
     var featureModuleHtml = '<div ng-click="main.close()">{{main.somevalue}} click on me to close the modal</div>',
 
         fragmentCA = '<div>Some regular content<br />' +
-            '<rb-view name="feature" resolve="data.resolve()">' +
+            '<rb-view name="feature" modal-controller="vm">' +
                 featureModuleHtml
             '</rb-view>' +
         '</div>';
@@ -16,6 +16,7 @@ angular.module('app').controller('AppController',function(layermanager){
         layermanager.dispatch('modal',{
             template : fragmentCA,
             controller : 'caModalController',
+            controllerAs: 'vm',
             data : {}
         })
     }

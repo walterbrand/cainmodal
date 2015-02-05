@@ -72,11 +72,12 @@ angular.module('app')
                 }
 
                 function renderSlide(configuration) {
-                    var templateWrapper = $interpolate('<div class="rs-modalslide" ng-class="{\'rs-modalslide--open\': data.isOpen}" ng-controller="{{controller}}">{{template}}</div>');
+                    var templateWrapper = $interpolate('<div class="rs-modalslide" ng-class="{\'rs-modalslide--open\': data.isOpen}" ng-controller="{{controller}} {{controllerAs}}">{{template}}</div>');
 
                     return templateWrapper({
                         template: configuration.template || $templateCache.get(configuration.templateUrl),
-                        controller: configuration.controller
+                        controller: configuration.controller,
+                        controllerAs: (configuration.controllerAs) ? 'as ' + configuration.controllerAs : ''
                     });
                 }
 
