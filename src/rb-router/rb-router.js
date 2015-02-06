@@ -48,8 +48,11 @@ function rbView(rbState, $compile){
             function updateView(firstTime){
                 if(!rbState.current){ return; }
 
-                if((firstTime && !name) || (name === rbState.current.name)){
-                    var html = $compile(rbState.current.config.template)(scope);
+                var viewName = (name) ? name + '@' + rbState.current.name : '',
+                    view = rbState.current.config.views[viewName];
+
+                if((firstTime && !name) || view){
+                    var html = $compile(view.template)(scope);
                     elem.empty().append(html);
                 }
             }

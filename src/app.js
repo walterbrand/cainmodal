@@ -3,8 +3,10 @@ angular.module('app',['feature', 'ui.router', 'rb.router'], function(rbStateProv
 
     var homeState = {
         name:'home',
-        template: '<b>Home<rb-view name="featureQ">ddd</rb-view></b>',
         views: {
+            '': {
+                template: '<b>Home<rb-view name="featureQ">ddd</rb-view></b>'
+            },
             'featureQ@home': {
                 template:'<div>my value is {{main.waarde}}</div>',
                 controller : 'featureQ.mainController',
