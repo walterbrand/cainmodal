@@ -16,7 +16,7 @@ angular.module('app',['feature', 'ui.router', 'rb.router'], function(rbStateProv
                 }
             }
         }
-    }
+    };
     rbStateProvider.state('home', homeState);
 
 
@@ -35,7 +35,7 @@ angular.module('app',['feature', 'ui.router', 'rb.router'], function(rbStateProv
                 }
             }
         }
-    }
+    };
     $stateProvider.state('home', homeState);
 
     /* should become something like:

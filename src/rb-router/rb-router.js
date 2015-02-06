@@ -33,13 +33,14 @@ function rbStateProvider(){
     };
 }
 
-function rbView(rbState, $compile){
+function rbView(rbState, $compile, $controller){
     return {
         restrict: 'E',
         link: function(scope, elem, attrs){
             var name = attrs.name;
 
             scope.$on('stateChangeSuccess', function(){
+                console.log('ddd');
                 updateView(false);
             });
 
@@ -52,7 +53,27 @@ function rbView(rbState, $compile){
                     view = rbState.current.config.views[viewName];
 
                 if((firstTime && !name) || view){
-                    var html = $compile(view.template)(scope);
+                    var viewScope = scope.$new(),
+                        dependencies = (function(){
+                            var result = {
+                                $scope: viewScope
+                            };
+
+                            if(view.resolve){
+                                angular.forEach(view.resolve, function(val, prop){
+                                    result[prop] = angular.isFunction(val) ? val() : val;
+                                });
+                            }
+
+                            return result;
+                        }()),
+                        controller = (view.controller) ? $controller(view.controller, dependencies) : null;
+
+                    if(view.controllerAs){
+                        viewScope[view.controllerAs] = controller;
+                    }
+
+                    var html = $compile(view.template)(viewScope);
                     elem.empty().append(html);
                 }
             }
