@@ -1,10 +1,44 @@
 angular.module('feature',[]);
-angular.module('app',['feature', 'ui.router'], function($stateProvider){
+angular.module('app',['feature'])
+    .provider('rbState', function(){
+        var states = {};
+        return {
+            state : state,
+            $get: $get
+        }
+
+        function state(stateObj){
+            states[stateObj.name] = stateObj;
+        }
+        function $get(layermanager, $timeout){
+            return {
+                go:go,
+                get: get
+            };
+            function go(name){
+                var state = states[name],
+                    compositeApplication = state.views[''].template;
+
+                $timeout(function(){
+                    layermanager.dispatch('modal',{
+                        template : compositeApplication,
+                        controller : 'caModalController',
+                        data : {stateName: name}
+                    })
+                })
+            }
+            function get(name) {
+                return states[name];
+            }
+
+        }
+    })
+    .config( function(rbStateProvider){
     var homeState = {
         name:'home',
         views: {
             '':{
-                template:'<b>Home<ui-view name="featureQ"></ui-view></b>' // ui-view should become rb-view
+                template:'<b>Home<rb-view name="featureQ"></rb-view></b>' // ui-view should become rb-view
             },
             'featureQ@home': {
                 template:'<div>my value is {{main.waarde}}</div>',
@@ -16,24 +50,14 @@ angular.module('app',['feature', 'ui.router'], function($stateProvider){
             }
         }
     }
-    $stateProvider.state('home', homeState);
+    rbStateProvider.state(homeState);
 
     /* should become something like:
         rbStateProvider.state('home', homeState)
     */
-}).run(function($state){
-        $state.go('home');
-        /*
-            should become something like rbState.go('home')
-            the template in view '' should be the template that is passed to
-            layermanager.dispatch({
-                template : the emptystring view
-                controller: camodalcontroller,
-                data: the homestate object
-            })
-         */
-
 }).controller('featureQ.mainController', function(app){
         var vm = this;
         vm.waarde = app.q;
+    }).run(function(rbState){
+        rbState.go('home')
     });

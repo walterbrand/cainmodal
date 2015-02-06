@@ -1,4 +1,4 @@
-angular.module('app').directive('rbView', function($controller, $compile){
+angular.module('app').directive('rbView', function($controller, $compile, rbState){
     return {
         restrict : 'E',
         link :link,
@@ -6,12 +6,15 @@ angular.module('app').directive('rbView', function($controller, $compile){
             resolve : '&',
             name : '@'
         }
-    }
+    };
 
     function link(scope, elem){
-        var controllerName = scope.name + '.maincontroller',
+        var controllerName = scope.name + '.mainController',
             featureScope = scope.$new(),
-            content = elem.html(),
+            stateName = scope.$parent.data.stateName,
+            state = rbState.get(stateName),
+            view = state.views[scope.name + '@' + stateName],
+            content = view.template,
             CONTROLLER_AS = 'main',
             layerSlide = {resolve:scope.resolve};
 
@@ -25,6 +28,6 @@ angular.module('app').directive('rbView', function($controller, $compile){
         elem.append(content);
 
         // add feature controller to the scope and make it available with controller as main
-        featureScope[CONTROLLER_AS] = $controller(controllerName, {$scope:featureScope, layerSlide : layerSlide});
+        featureScope[CONTROLLER_AS] = $controller(controllerName, {$scope:featureScope, layerSlide : layerSlide, app:view.resolve.app()});
     }
 });
