@@ -1,4 +1,5 @@
-angular.module('app').directive('rbView', function($controller, $compile){
+
+/*angular.module('app').directive('rbView', function($controller, $compile){
     return {
         restrict : 'E',
         link :link,
@@ -28,3 +29,4 @@ angular.module('app').directive('rbView', function($controller, $compile){
         featureScope[CONTROLLER_AS] = $controller(controllerName, {$scope:featureScope, layerSlide : layerSlide});
     }
 });
+    */

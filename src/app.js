@@ -1,5 +1,23 @@
 angular.module('feature',[]);
-angular.module('app',['feature', 'ui.router'], function($stateProvider){
+angular.module('app',['feature', 'ui.router', 'rb.router'], function(rbStateProvider, $stateProvider){
+
+    var homeState = {
+        name:'home',
+        template: '<b>Home<rb-view name="featureQ">ddd</rb-view></b>',
+        views: {
+            'featureQ@home': {
+                template:'<div>my value is {{main.waarde}}</div>',
+                controller : 'featureQ.mainController',
+                controllerAs : 'main',
+                resolve : {
+                    app: function(){return {q:6}}
+                }
+            }
+        }
+    }
+    rbStateProvider.state('home', homeState);
+
+
     var homeState = {
         name:'home',
         views: {
@@ -21,8 +39,9 @@ angular.module('app',['feature', 'ui.router'], function($stateProvider){
     /* should become something like:
         rbStateProvider.state('home', homeState)
     */
-}).run(function($state){
+}).run(function($state, rbState){
         $state.go('home');
+        rbState.go('home');
         /*
             should become something like rbState.go('home')
             the template in view '' should be the template that is passed to
